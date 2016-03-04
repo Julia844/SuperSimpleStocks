@@ -22,16 +22,16 @@ pip install git+git://github.com/tgorka/SuperSimpleStocks.git
 To install in develop mode from the sources you should clone the sources and install in in develop mode:
 
 ```
-pip install -e /path/to/sources --no-use-wheel
+pip install -e /path/to/sources --no-binary :all: pytest
 ```
 
 To check if the application was installed:
 
 ```
-python -c "import sys; print('supersimplestocks' in sys.modules)"
+python -c "import sys; import supersimplestocks; print('supersimplestocks' in sys.modules)"
 ```
 
-It should print True/False.
+It should print True or throw an ImportError:.
 
 To uninstall application:
 
