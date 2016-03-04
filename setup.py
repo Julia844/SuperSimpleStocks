@@ -23,7 +23,7 @@ setup(name='supersimplestocks',
         long_description=README,
         classifiers=[
             "Programming Language :: Python",
-            "Framework :: Celegry",
+            "Framework :: Celery :: RabbitMQ",
             "Topic :: Messaging :: Application",
         ],
         author='Tomasz Gorka',

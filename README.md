@@ -11,6 +11,14 @@ The source code that will :
     - Calculate Stock Price based on trades recorded in past 15 minutes
 - Calculate the GBCE All Share Index using the geometric mean of prices for all stocks
 
+## Requirements
+
+- Python 3.x
+- NumPy
+- Celery
+- RabbitMQ
+- Tested on MacOS X
+
 ## Installation
 
 To install application with all dependencies:
@@ -31,7 +39,7 @@ To check if the application was installed:
 python -c "import sys; import supersimplestocks; print('supersimplestocks' in sys.modules)"
 ```
 
-It should print True or throw an ImportError:.
+It should print True or throw an ImportError.
 
 To uninstall application:
 
