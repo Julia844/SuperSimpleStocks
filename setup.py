@@ -14,7 +14,8 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.md')).read()
 
 requires = [
-
+    #'pyspark==1.6.0', # use PYTHONPATH pointing to this egg
+    'py4j==0.9', # dependency of pyspark==1.6.0
 ]
 
 setup(name='supersimplestocks',
@@ -22,9 +23,15 @@ setup(name='supersimplestocks',
         description='Super Simple Stocs',
         long_description=README,
         classifiers=[
-            "Programming Language :: Python",
-            "Framework :: Celery :: RabbitMQ",
-            "Topic :: Messaging :: Application",
+            'Environment :: Console',
+            'Programming Language :: Python',
+            'Operating System :: POSIX',
+            'Framework :: Celery',
+            'Framework :: Spark',
+            'Library :: Numpy',
+            'Topic :: Stock :: Analyses :: Application',
+            'Intended Audience :: Developers',
+            'License :: MIT',
         ],
         author='Tomasz Gorka',
         author_email='tomasz@gorka.org.pl',

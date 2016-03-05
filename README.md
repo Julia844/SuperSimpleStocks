@@ -13,7 +13,9 @@ The source code that will :
 
 ## Requirements
 
-- Python 3.x
+- Python 3.x (tested on 3.4)
+- Spark 1.6.0
+- Java >= 1.7 (tested on 1.8)
 - NumPy
 - Celery
 - RabbitMQ
@@ -21,6 +23,34 @@ The source code that will :
 
 ## Installation
 
+
+### Spark
+First ensure you have installed Python 3.x, Java >=1.7 and Spark 1.6.0.
+
+To install Spark download the sources, install Scala. Clean an build sources:
+
+```
+export SBT_OPTS="-Xmx2g -XX:MaxPermSize=512M -XX:ReservedCodeCacheSize=512m"
+sbt clean 
+sbt assembly
+```
+
+Export spark to be avalible in your python environement by setting it in PYTHONPATH:
+
+```
+export SPARK_HOME=path\to\sources
+export PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH
+```
+
+if you are using virtualenvwrapper:
+
+```
+add2virtualenv $SPARK_HOME/python/
+```
+
+To make pyspark working first you need to install application dependencies from the next step.
+
+### Application
 To install application with all dependencies:
 
 ```
@@ -41,13 +71,19 @@ python -c "import sys; import supersimplestocks; print('supersimplestocks' in sy
 
 It should print True or throw an ImportError.
 
+To check if pyspark is working:
+
+```
+python -c "import sys; import pyspark; print('pyspark' in sys.modules)"
+```
+
 To uninstall application:
 
 ```
 pip uninstall supersimplestocks
 ```
 
-HINT: It's always save to use VirtualEnv (https://virtualenv.readthedocs.org/en/latest/).
+HINT: It's always save to use VirtualEnv (https://virtualenv.readthedocs.org/en/latest/) and virtualenvwrapper.
 
 ## Run
 
