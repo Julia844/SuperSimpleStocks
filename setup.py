@@ -16,6 +16,7 @@ README = open(os.path.join(here, 'README.md')).read()
 requires = [
     #'pyspark==1.6.0', # use PYTHONPATH pointing to this egg
     'py4j==0.9', # dependency of pyspark==1.6.0
+    'celery==3.1.21',
 ]
 
 setup(name='supersimplestocks',

@@ -14,6 +14,7 @@ The source code that will :
 ## Requirements
 
 - Python 3.x (tested on 3.4)
+- RabbitMQ
 - Spark 1.6.0
 - Java >= 1.7 (tested on 1.8)
 - NumPy
@@ -87,7 +88,12 @@ HINT: It's always save to use VirtualEnv (https://virtualenv.readthedocs.org/en/
 
 ## Run
 
+### Celery server
+To run celery server open console in the sources
 
+```
+celery -A supersimplestocks worker -l info --concurrency=1
+```
 
 ## Release History
 + 0.0.1 - initial revision.
