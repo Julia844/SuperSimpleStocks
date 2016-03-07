@@ -1,4 +1,4 @@
-# SuperSimpleStocks
+# Super Simple Stocks
 Simple example to calculate metrics for given stocks
 
 ## Description
