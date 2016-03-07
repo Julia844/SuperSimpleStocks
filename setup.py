@@ -19,6 +19,11 @@ requires = [
     'celery==3.1.21',
 ]
 
+test_requires = [ require for require in requires ]
+test_requires.extend([
+
+])
+
 setup(name='supersimplestocks',
         version='0.0.1',
         description='Super Simple Stocs',
@@ -42,8 +47,8 @@ setup(name='supersimplestocks',
         include_package_data=True,
         zip_safe=False,
         install_requires = requires,
-        tests_require = requires,
-        test_suite='supersimplestocks',
+        tests_require = test_requires,
+        test_suite='tests',
         license='MIT',
 )
 

@@ -11,7 +11,8 @@ from __future__ import absolute_import
 import datetime
 import uuid
 from celery import Celery
-from supersimplestocks import spark
+
+from supersimplestocks import spark as sp
 
 # Initialize celery connection with RabbitMQ
 celery_app = Celery('supersimplestocs',
@@ -19,9 +20,12 @@ celery_app = Celery('supersimplestocs',
         backend='amqp://guest@localhost//')
 
 # Optional configuration, see the application user guide.
-celery_app.conf.update(
-        CELERY_TASK_RESULT_EXPIRES=3600,
-)
+#celery_app.conf.update(
+#        CELERY_TASK_RESULT_EXPIRES=3600,
+#)
+
+# spark object for distributed calculations
+spark = sp.Spark()
 
 # information kept. Store it in the DB.
 trades = []
@@ -116,7 +120,9 @@ def dividend_yield(symbol, price=None):
     '''
     last_dividend = spark.last_dividend(symbol, dividends)
     s_price = price if price is not None else stock_price(symbol)
-    if (last_dividend['type'] == 'Preferred'):
+    if s_price is None or s_price == 0:
+        return None
+    elif (last_dividend['type'] == 'Preferred'):
         return last_dividend['fixed'] * float(last_dividend['value']) / s_price
     else:
         return float(last_dividend['last']) / s_price
@@ -131,7 +137,9 @@ def p_e_ratio(symbol):
     :return: value
     '''
     s_price = stock_price(symbol)
-    return s_price / dividend_yield(symbol, price=s_price)
+    d_yield = dividend_yield(symbol, price=s_price)
+    return None if d_yield is None or d_yield == 0 or s_price is None \
+            else s_price / d_yield
 
 
 @celery_app.task

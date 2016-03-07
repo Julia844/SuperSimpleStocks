@@ -19,7 +19,7 @@ def load_dividend_data(csv_path):
     with open(os.path.abspath(csv_path), 'r') as csvfile:
         for index,stock in enumerate(csv.reader(csvfile, delimiter=';')):
             if index > 0:
-                record_dividend_data(**stock[:4])
+                record_dividend_data(*stock[:5])
 
 
 def record_dividend_data(symbol, type, last, fixed, value):
@@ -63,7 +63,7 @@ def stock_price(symbol):
     :param symbol: of the stock
     :return: value
     '''
-    return tasks.stock_price.delay(symbol).get(timeout=1)
+    return tasks.stock_price.delay(symbol).get(timeout=300)
 
 
 def dividend_yield(symbol):
@@ -74,7 +74,7 @@ def dividend_yield(symbol):
     :return: value or throw a ValueError if symbol not registered
             in last dividents.
     '''
-    return tasks.dividend_yield.delay(symbol).get(timeout=1)
+    return tasks.dividend_yield.delay(symbol).get(timeout=300)
 
 
 def p_e_ratio(symbol):
@@ -84,7 +84,7 @@ def p_e_ratio(symbol):
     :param symbol: of the stock
     :return: value
     '''
-    return tasks.p_e_ratio.delay(symbol).get(timeout=1)
+    return tasks.p_e_ratio.delay(symbol).get(timeout=300)
 
 
 def gbce():
@@ -93,5 +93,5 @@ def gbce():
     for all stocks.
     :return: value
     '''
-    return tasks.gbce.delay().get(timeout=1)
+    return tasks.gbce.delay().get(timeout=300)
 

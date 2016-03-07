@@ -25,7 +25,7 @@ def check_argument(parser, arguments_count, arguments, api_fun):
         parser.error("Incorrect number of arguments. "
                      "For this action it should be %d." % arguments_count)
 
-    return api_fun(**arguments)
+    return api_fun(*arguments)
 
 
 def main(argv=None):
@@ -36,7 +36,8 @@ def main(argv=None):
     '''
     if argv is None:
         argv = sys.argv
-    parser = OptionParser("usage: %prog [options] data_scv_path")
+    parser = OptionParser("usage: %prog [options] args. "
+                          "Call %prog --help to see the options.")
     parser.add_option('-a', '--action', default='trade',
             help = "Set action to do. Possible actions: trade(by default), "
                    "load_dividends, load_dividend, price, pe, gbce.")
@@ -51,10 +52,10 @@ def main(argv=None):
                 supersimplestocks.record_trade),
 
         'load_dividends': lambda arguments: check_argument(parser, 1, arguments,
-                supersimplestocks.record_dividend_data),
+                supersimplestocks.load_dividend_data),
 
         'load_dividend': lambda arguments: check_argument(parser, 5, arguments,
-                supersimplestocks.load_dividend_data),
+                supersimplestocks.record_dividend_data),
 
         'dividend': lambda arguments: check_argument(parser, 1, arguments,
                 supersimplestocks.dividend_yield),
@@ -70,7 +71,8 @@ def main(argv=None):
 
     }.get(options.action, undefined_action)(arguments)
 
-    print(result)
+    if result is not None:
+        print(result)
 
     return 0
 

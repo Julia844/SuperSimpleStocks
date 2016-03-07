@@ -17,13 +17,11 @@ The source code that will :
 - RabbitMQ
 - Spark 1.6.0
 - Java >= 1.7 (tested on 1.8)
-- NumPy
 - Celery
 - RabbitMQ
 - Tested on MacOS X
 
 ## Installation
-
 
 ### Spark
 First ensure you have installed Python 3.x, Java >=1.7 and Spark 1.6.0.
@@ -36,7 +34,8 @@ sbt clean
 sbt assembly
 ```
 
-Export spark to be avalible in your python environement by setting it in PYTHONPATH:
+Export spark to be avalible in your python environement by setting it 
+in PYTHONPATH:
 
 ```
 export SPARK_HOME=path\to\sources
@@ -49,7 +48,12 @@ if you are using virtualenvwrapper:
 add2virtualenv $SPARK_HOME/python/
 ```
 
-To make pyspark working first you need to install application dependencies from the next step.
+To make pyspark working first you need to install application dependencies 
+from the next step.
+
+### Celery
+Celery server should be installed as well as RabbitMQ or another 
+messaging system compatible with Celery.
 
 ### Application
 To install application with all dependencies:
@@ -58,7 +62,8 @@ To install application with all dependencies:
 pip install git+git://github.com/tgorka/SuperSimpleStocks.git
 ```
 
-To install in develop mode from the sources you should clone the sources and install in in develop mode:
+To install in develop mode from the sources you should clone the sources and 
+install in in develop mode:
 
 ```
 pip install -e /path/to/sources --no-binary :all: pytest
@@ -84,16 +89,21 @@ To uninstall application:
 pip uninstall supersimplestocks
 ```
 
-HINT: It's always save to use VirtualEnv (https://virtualenv.readthedocs.org/en/latest/) and virtualenvwrapper.
+HINT: It's always save to use VirtualEnv 
+(https://virtualenv.readthedocs.org/en/latest/) and virtualenvwrapper.
 
 ## Run
 
 ### Celery server
-To run celery server open console in the sources
+To run celery server open console in the sources. Make sure that RabbitMQ 
+is running.
 
 ```
-celery -A supersimplestocks worker -l info --concurrency=1
+celery -A supersimplestocks worker --loglevel=INFO --concurrency=1
 ```
+
+This is example of use of Celery with RabbitMQ. The configuration should be
+done in more optimized way. The same is with Spark.
 
 ### Example of use from the console
 
@@ -180,8 +190,9 @@ python supersimplestocks --action=gbce
 ```
 
 ## Release History
-+ 0.1.0 - code for the celery and spark
-+ 0.0.1 - initial revision.
++ 0.3.0 - better interface, testings, bugfixing
++ 0.2.0 - code for the celery and spark
++ 0.1.0 - initial revision.
 
 ## Author
 Tomasz Górka <http://tomasz.gorka.org.pl>
