@@ -14,11 +14,10 @@ The source code that will :
 ## Requirements
 
 - Python 3.x (tested on 3.4)
-- RabbitMQ
 - Spark 1.6.0
 - Java >= 1.7 (tested on 1.8)
-- Celery
-- RabbitMQ
+- Celery (tested on 3.1.21)
+- RabbitMQ (tested on 3.5.1)
 - Tested on MacOS X
 
 ## Installation
@@ -95,8 +94,14 @@ HINT: It's always save to use VirtualEnv
 ## Run
 
 ### Celery server
-To run celery server open console in the sources. Make sure that RabbitMQ 
-is running.
+
+Make sure that RabbitMQ is running.
+
+```
+rabbitmq-server --start
+```
+
+To run celery server open console in the sources.
 
 ```
 celery -A supersimplestocks worker --loglevel=INFO --concurrency=1
