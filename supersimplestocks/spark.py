@@ -6,13 +6,11 @@
 #
 # Copyright (C) 2016 Tomasz Gorka <http://tomasz.gorka.org.pl>
 #
-from pyspark.sql import SQLContext
 from pyspark import SparkContext, SparkConf
 
 # initialize spark
 conf = SparkConf().setAppName('supersimplestocs')
 spark_context = SparkContext('local[2]', conf=conf)
-sql_context = SQLContext(spark_context)
 
 
 def compatible_trades(trade_offer, trades):
@@ -43,9 +41,9 @@ def stock_price(symbol, begin_datetime, trades):
     '''
     def mapFun(trade):
         quantity = trade['quantity'] - trade['open_quantity']
-        return trade['price'] * quantity, quantity
+        return trade['price'] * float(quantity), quantity
 
-    return spark_context.parallelize(trades). \
+    price, quantity = spark_context.parallelize(trades). \
         filter(lambda trade: trade['symbol'] == symbol and
                              trade['datetime'] >= begin_datetime and
                              trade['open_quantity'] < trade['quantity']). \
@@ -53,6 +51,8 @@ def stock_price(symbol, begin_datetime, trades):
         reduce(lambda price_quantity1, price_quantity2:
                 (price_quantity1[0] + price_quantity2[0],
                  price_quantity1[1] + price_quantity2[1]))
+
+    return price / float(quantity)
 
 
 def last_dividend(symbol, dividents):

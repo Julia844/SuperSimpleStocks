@@ -28,7 +28,7 @@ trades = []
 dividends = []
 
 # timedelta for calculating trades: 15min
-trandes_delta = datetime.timedelta(minutes=12)
+trandes_delta = datetime.timedelta(minutes=15)
 
 
 @celery_app.task
@@ -81,7 +81,8 @@ def record_trade(symbol, type, quantity, price):
     index = 0
     while index < len(compatible_trades) and trade['open_quantity'] > 0:
         compatible_trade = compatible_trades[index]
-        trade_quantity = min(trade['quantity'], compatible_trade['quantity'])
+        trade_quantity = min(trade['open_quantity'],
+                compatible_trade['open_quantity'])
 
         trade['registered'].append((compatible_trade['id'], trade_quantity))
         compatible_trade['registered'].append((trade['id'], trade_quantity))
@@ -116,9 +117,9 @@ def dividend_yield(symbol, price=None):
     last_dividend = spark.last_dividend(symbol, dividends)
     s_price = price if price is not None else stock_price(symbol)
     if (last_dividend['type'] == 'Preferred'):
-        return last_dividend['fixed'] * last_dividend['value'] / s_price
+        return last_dividend['fixed'] * float(last_dividend['value']) / s_price
     else:
-        return last_dividend['last'] / s_price
+        return float(last_dividend['last']) / s_price
 
 
 @celery_app.task
