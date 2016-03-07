@@ -189,6 +189,16 @@ example:
 python supersimplestocks --action=gbce
 ```
 
+
+## Tests
+
+tests suits are in test folder to run it
+
+```
+python setup.py test
+```
+
+
 ## Release History
 + 0.3.0 - better interface, testings, bugfixing
 + 0.2.0 - code for the celery and spark

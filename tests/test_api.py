@@ -6,8 +6,9 @@
 #
 # Copyright (C) 2016 Tomasz Gorka <http://tomasz.gorka.org.pl>
 #
-import unittest
+import os
 import random
+import unittest
 
 import supersimplestocks
 
@@ -21,7 +22,14 @@ class ApiTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        supersimplestocks.load_dividend_data('../example/data.csv')
+        # geting path to the csv file
+        csv_path = os.path.abspath(__file__)
+        csv_path = os.path.dirname(csv_path)
+        csv_path = os.path.join(csv_path, '../example/data.csv')
+        csv_path = os.path.abspath(csv_path)
+        # load dividents data from csv
+        supersimplestocks.load_dividend_data(csv_path)
+        # load samte trades
         cls._record_trade()
 
     @classmethod
