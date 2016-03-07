@@ -95,7 +95,92 @@ To run celery server open console in the sources
 celery -A supersimplestocks worker -l info --concurrency=1
 ```
 
+### Example of use from the console
+
+#### Load last dividents data
+Before calculation of the dividents there historical data needs to be added
+from the CSV file.
+There is data file in example folder so it needs to be added:
+
+```
+python supersimplestocks --action=load_dividents examples/data.csv
+```
+
+or it can le load one by one
+
+```
+python supersimplestocks --action=load_divident SYMBOL, TYPE, LAST_DIVIDEND, FIXED_DIVIDEND, PAR_VALUE
+```
+
+example
+
+```
+python supersimplestocks --action=load_divident TEA, Prefered, 8, 0.02, 100
+```
+
+#### Record trade
+
+```
+python supersimplestocks SYMBOL TYPE QUANTITY PRICE
+```
+
+example:
+
+```
+python supersimplestocks TEA SELL 1000 90
+python supersimplestocks TEA BUY 100 90
+```
+
+#### Calculate stock price
+
+```
+python supersimplestocks --action=price SYMBOL
+```
+
+example:
+
+```
+python supersimplestocks --action=price TEA
+```
+
+#### Calculate dividend yeild
+
+```
+python supersimplestocks --action=dividend SYMBOL
+```
+
+example:
+
+```
+python supersimplestocks --action=dividend TEA
+```
+
+#### Calculate P/E Ratio
+
+```
+python supersimplestocks --action=pe SYMBOL
+```
+
+example:
+
+```
+python supersimplestocks --action=pe TEA
+```
+
+#### Calculate GBCE All share index for all stocks
+
+```
+python supersimplestocks --action=gbce
+```
+
+example:
+
+```
+python supersimplestocks --action=gbce
+```
+
 ## Release History
++ 0.1.0 - code for the celery and spark
 + 0.0.1 - initial revision.
 
 ## Author

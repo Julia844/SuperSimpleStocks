@@ -41,7 +41,6 @@ def stock_price(symbol, begin_datetime, trades):
     :param trades: to analyze
     :return: calculated value
     '''
-
     def mapFun(trade):
         quantity = trade['quantity'] - trade['open_quantity']
         return trade['price'] * quantity, quantity
@@ -66,3 +65,14 @@ def last_dividend(symbol, dividents):
     return spark_context.parallelize(dividents). \
         filter(lambda divident: divident['symbol'] == symbol). \
         first()
+
+
+def gbce(begin_datetime, trades):
+    count, p = spark_context.parallelize(trades). \
+        filter(lambda trade: trade['datetime'] >= begin_datetime and
+                             trade['open_quantity'] < trade['quantity']). \
+        map(lambda trade: (1, trade['price'])). \
+        reduce(lambda count_p1, count_p2: (count_p1[0] + count_p2[0],
+                                           count_p1[1] * count_p2[1]))
+
+    return p ** (1.0 / float(count))

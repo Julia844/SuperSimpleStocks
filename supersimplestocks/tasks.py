@@ -131,3 +131,14 @@ def p_e_ratio(symbol):
     '''
     s_price = stock_price(symbol)
     return s_price / dividend_yield(symbol, price=s_price)
+
+
+@celery_app.task
+def gbce():
+    '''
+    Calculate the GBCE All Share Index using the geometric mean of prices
+    for all stocks.
+    :return: value
+    '''
+    now = datetime.datetime.now()
+    return spark.gbce(now - trandes_delta, trades)
