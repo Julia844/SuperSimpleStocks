@@ -105,6 +105,33 @@ celery -A supersimplestocks worker --loglevel=INFO --concurrency=1
 This is example of use of Celery with RabbitMQ. The configuration should be
 done in more optimized way. The same is with Spark.
 
+### API
+
+There is an API functions to use the library. The documentation can be 
+generated from the comments using reStructuredText.
+
+```
+
+```
+
+The simpe of API use:
+
+```
+import supersimplestocs
+
+supersimplestocks.load_dividend_data('example/data.csv')
+supersimplestocks.record_dividend_data('TEA', 'Preferred', 45, '12%', 1000)
+
+supersimplestocks.record_trade('TEA', 'SELL', 100, 10.5)
+supersimplestocks.record_trade('TEA', 'BUY', 1000, 10.5)
+
+supersimplestocks.stock_price('TEA')
+supersimplestocks.dividend_yield('TEA')
+supersimplestocks.p_e_ratio('TEA')
+
+supersimplestocks.gbce()
+```
+
 ### Example of use from the console
 
 #### Load last dividents data
