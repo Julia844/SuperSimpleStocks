@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>supersimplestocks.spark &mdash; Python  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Python  documentation" href="../../contents.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for supersimplestocks.spark</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># Super Simple Stocks</span>
+<span class="c1"># https://github.com/tgorka/SuperSimpleStocks</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2016 Tomasz Gorka &lt;http://tomasz.gorka.org.pl&gt;</span>
+<span class="c1">#</span>
+<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkContext</span><span class="p">,</span> <span class="n">SparkConf</span>
+
+
+<div class="viewcode-block" id="map_stock_price"><a class="viewcode-back" href="../../spark.html#supersimplestocks.spark.map_stock_price">[docs]</a><span class="k">def</span> <span class="nf">map_stock_price</span><span class="p">(</span><span class="n">trade</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Spark Map function for calculating stock price.</span>
+
+<span class="sd">    :param trade: for calculation</span>
+<span class="sd">    :return: calculated value</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">quantity</span> <span class="o">=</span> <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;open_quantity&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">quantity</span><span class="p">),</span> <span class="n">quantity</span></div>
+
+
+<div class="viewcode-block" id="reduce_stock_price"><a class="viewcode-back" href="../../spark.html#supersimplestocks.spark.reduce_stock_price">[docs]</a><span class="k">def</span> <span class="nf">reduce_stock_price</span><span class="p">(</span><span class="n">price_quantity1</span><span class="p">,</span> <span class="n">price_quantity2</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Spark Reduce function for calculating stock price.</span>
+
+<span class="sd">    :param price_quantity1: first object to combine</span>
+<span class="sd">    :param price_quantity2: second object to combine</span>
+<span class="sd">    :return: calculated value</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">price_quantity1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">price_quantity2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">price_quantity1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">price_quantity2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="postfix_stock_price"><a class="viewcode-back" href="../../spark.html#supersimplestocks.spark.postfix_stock_price">[docs]</a><span class="k">def</span> <span class="nf">postfix_stock_price</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">quantity</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Postfix function to calculate results from Spark reduce function</span>
+<span class="sd">    for calculating stock price</span>
+<span class="sd">    :param price: to calculate</span>
+<span class="sd">    :param quantity: to calculate</span>
+<span class="sd">    :return: calculated value</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">price</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span> <span class="k">if</span> <span class="n">quantity</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">None</span></div>
+
+
+<div class="viewcode-block" id="postfix_gbce"><a class="viewcode-back" href="../../spark.html#supersimplestocks.spark.postfix_gbce">[docs]</a><span class="k">def</span> <span class="nf">postfix_gbce</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Postfix function to calculate results from Spark reduce function</span>
+<span class="sd">    for calculating GBCE.</span>
+
+<span class="sd">    :param p: to calculate</span>
+<span class="sd">    :param count: to calculate</span>
+<span class="sd">    :return: calculated value</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">p</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">count</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Spark"><a class="viewcode-back" href="../../spark.html#supersimplestocks.spark.Spark">[docs]</a><span class="k">class</span> <span class="nc">Spark</span><span class="p">():</span>
+    <span class="c1"># private spark context variable</span>
+    <span class="n">__spart_context</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">spark_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get spark context if needed and initialize it on first run.</span>
+
+<span class="sd">        :return: spark context</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__spart_context</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">conf</span> <span class="o">=</span> <span class="n">SparkConf</span><span class="p">()</span><span class="o">.</span><span class="n">setAppName</span><span class="p">(</span><span class="s1">&#39;supersimplestocs&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__spart_context</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">(</span><span class="s1">&#39;local[2]&#39;</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="n">conf</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__spart_context</span>
+
+
+<div class="viewcode-block" id="Spark.compatible_trades"><a class="viewcode-back" href="../../spark.html#supersimplestocks.spark.Spark.compatible_trades">[docs]</a>    <span class="k">def</span> <span class="nf">compatible_trades</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trade_offer</span><span class="p">,</span> <span class="n">trades</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get compatible trades (according to price, oposite type,</span>
+<span class="sd">        have open quantities.</span>
+
+<span class="sd">        :param trade_offer: to get copmatible trades</span>
+<span class="sd">        :param trades: to filter</span>
+<span class="sd">        :return: list of compatible trades</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">try_type</span> <span class="o">=</span> <span class="s1">&#39;SELL&#39;</span> <span class="k">if</span> <span class="n">trade_offer</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;BUY&#39;</span> <span class="k">else</span> <span class="s1">&#39;BUY&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark_context</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span><span class="o">.</span> \
+            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">offer</span><span class="p">:</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">try_type</span> <span class="ow">and</span>
+                                 <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">trade_offer</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="ow">and</span>
+                                 <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;open_quantity&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">sortBy</span><span class="p">(</span><span class="k">lambda</span> <span class="n">offer</span><span class="p">:</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span><span class="o">.</span> \
+            <span class="n">collect</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Spark.stock_price"><a class="viewcode-back" href="../../spark.html#supersimplestocks.spark.Spark.stock_price">[docs]</a>    <span class="k">def</span> <span class="nf">stock_price</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">begin_datetime</span><span class="p">,</span> <span class="n">trades</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get stock price based on the realized trades since the given time</span>
+<span class="sd">        for given stock symbol.</span>
+<span class="sd">        Algorithm: Sum(trade_price*trade_quantity) / Sum(trade_quantity).</span>
+
+<span class="sd">        :param symbol: symbol of stock</span>
+<span class="sd">        :param begin_datetime: begin date since to analyze</span>
+<span class="sd">        :param trades: to analyze</span>
+<span class="sd">        :return: calculated value</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">filtered_rdd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark_context</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span><span class="o">.</span> \
+            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">trade</span><span class="p">:</span> <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;symbol&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">symbol</span> <span class="ow">and</span>
+                                 <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">begin_datetime</span> <span class="ow">and</span>
+                                 <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;open_quantity&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">filtered_rdd</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="n">price</span><span class="p">,</span> <span class="n">quantity</span> <span class="o">=</span> <span class="n">filtered_rdd</span><span class="o">.</span> \
+            <span class="nb">map</span><span class="p">(</span><span class="n">map_stock_price</span><span class="p">)</span><span class="o">.</span> \
+            <span class="nb">reduce</span><span class="p">(</span><span class="n">reduce_stock_price</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">postfix_stock_price</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">quantity</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Spark.last_dividend"><a class="viewcode-back" href="../../spark.html#supersimplestocks.spark.Spark.last_dividend">[docs]</a>    <span class="k">def</span> <span class="nf">last_dividend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">dividents</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get last dividend from the list based on given symbol.</span>
+
+<span class="sd">        :param symbol: symbol of stock</span>
+<span class="sd">        :param dividents: to analyze</span>
+<span class="sd">        :return: last dividend from the list or throw a ValueError if not exists</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">filtered_rdd</span>  <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">spark_context</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">dividents</span><span class="p">)</span><span class="o">.</span> \
+            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">divident</span><span class="p">:</span> <span class="n">divident</span><span class="p">[</span><span class="s1">&#39;symbol&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">symbol</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">None</span> <span class="k">if</span> <span class="n">filtered_rdd</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span> <span class="k">else</span> <span class="n">filtered_rdd</span><span class="o">.</span><span class="n">first</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Spark.gbce"><a class="viewcode-back" href="../../spark.html#supersimplestocks.spark.Spark.gbce">[docs]</a>    <span class="k">def</span> <span class="nf">gbce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">begin_datetime</span><span class="p">,</span> <span class="n">trades</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculate GBCE based on the realized trades since the given time</span>
+<span class="sd">        for all stocks.</span>
+<span class="sd">        Algorithm: geometric mean of all stock prices: RootN(Sp1*Sp2*...SpN).</span>
+
+<span class="sd">        :param begin_datetime: begin date since to analyze</span>
+<span class="sd">        :param trades: to analyze</span>
+<span class="sd">        :return: calculated value</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">filtered_rdd</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark_context</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">trades</span><span class="p">)</span><span class="o">.</span> \
+            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">trade</span><span class="p">:</span> <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">begin_datetime</span> <span class="ow">and</span>
+                                 <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;open_quantity&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">trade</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">filtered_rdd</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="n">count</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">filtered_rdd</span><span class="o">.</span> \
+            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">trade</span><span class="p">:</span> <span class="p">(</span><span class="n">trade</span><span class="p">[</span><span class="s1">&#39;symbol&#39;</span><span class="p">],</span> <span class="n">map_stock_price</span><span class="p">(</span><span class="n">trade</span><span class="p">)))</span><span class="o">.</span> \
+            <span class="n">reduceByKey</span><span class="p">(</span><span class="n">reduce_stock_price</span><span class="p">)</span><span class="o">.</span> \
+            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">symbol</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">postfix_stock_price</span><span class="p">(</span><span class="o">*</span><span class="n">symbol</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span><span class="o">.</span> \
+            <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">count_p1</span><span class="p">,</span> <span class="n">count_p2</span><span class="p">:</span> <span class="p">(</span><span class="n">count_p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">count_p2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                               <span class="n">count_p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">count_p2</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="c1"># count is always &gt; 0 because filtered_rdd is not empty</span>
+        <span class="k">return</span> <span class="n">postfix_gbce</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../contents.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4b1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

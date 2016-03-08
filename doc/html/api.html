@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>supersimplestocks.api Package &mdash; Python  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Python  documentation" href="contents.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-supersimplestocks.api">
+<span id="supersimplestocks-api-package"></span><h1><a class="reference internal" href="#module-supersimplestocks.api" title="supersimplestocks.api"><code class="xref py py-mod docutils literal"><span class="pre">supersimplestocks.api</span></code></a> Package<a class="headerlink" href="#module-supersimplestocks.api" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="supersimplestocks.api.dividend_yield">
+<code class="descclassname">supersimplestocks.api.</code><code class="descname">dividend_yield</code><span class="sig-paren">(</span><em>symbol</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/api.html#dividend_yield"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.api.dividend_yield" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate dividend yield for given stock.
+The initial data about the dividends are static taken from csv file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>symbol</strong> &#8211; of the stock</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">value or None if symbol not registered
+in last dividents.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.api.gbce">
+<code class="descclassname">supersimplestocks.api.</code><code class="descname">gbce</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/api.html#gbce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.api.gbce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the GBCE All Share Index using the geometric mean of prices
+for all stocks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">value or None if can&#8217;t calculate value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.api.load_dividend_data">
+<code class="descclassname">supersimplestocks.api.</code><code class="descname">load_dividend_data</code><span class="sig-paren">(</span><em>csv_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/api.html#load_dividend_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.api.load_dividend_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load dividend data from csv file and registered each value
+to the celery task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>csv_path</strong> &#8211; path to the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>ValueError</strong> &#8211; if value or last is &lt; 0 from any row in csv file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.api.p_e_ratio">
+<code class="descclassname">supersimplestocks.api.</code><code class="descname">p_e_ratio</code><span class="sig-paren">(</span><em>symbol</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/api.html#p_e_ratio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.api.p_e_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate P/E Ratio for given stock.
+The initial data about the dividends are static taken from csv file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>symbol</strong> &#8211; of the stock</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">value or None if can&#8217;t calculate value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.api.record_dividend_data">
+<code class="descclassname">supersimplestocks.api.</code><code class="descname">record_dividend_data</code><span class="sig-paren">(</span><em>symbol</em>, <em>type</em>, <em>last</em>, <em>fixed</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/api.html#record_dividend_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.api.record_dividend_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Record new dividend</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>symbol</strong> &#8211; of the stock</li>
+<li><strong>type</strong> &#8211; Common, Preferred</li>
+<li><strong>last</strong> &#8211; dividend value</li>
+<li><strong>fixed</strong> &#8211; percentage value in format 0.01, or 1% otherwise set as None.</li>
+<li><strong>value</strong> &#8211; par value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><strong>ValueError</strong> &#8211; if value or last is &lt; 0</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.api.record_trade">
+<code class="descclassname">supersimplestocks.api.</code><code class="descname">record_trade</code><span class="sig-paren">(</span><em>symbol</em>, <em>type</em>, <em>quantity</em>, <em>price</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/api.html#record_trade"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.api.record_trade" title="Permalink to this definition">¶</a></dt>
+<dd><p>Record a new trade in the stock.
+Check the trades and try fo finalize the trade.
+If not possible to finalize for all quantities
+the rest will wait in the queue.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>symbol</strong> &#8211; of the stock</li>
+<li><strong>type</strong> &#8211; SELL, BUY</li>
+<li><strong>quantity</strong> &#8211; to trade</li>
+<li><strong>price</strong> &#8211; of the trade</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><strong>ValueError</strong> &#8211; if price or quantity is &lt; 0</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.api.stock_price">
+<code class="descclassname">supersimplestocks.api.</code><code class="descname">stock_price</code><span class="sig-paren">(</span><em>symbol</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/api.html#stock_price"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.api.stock_price" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate stock price for given stock based on trades from last 15 min.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>symbol</strong> &#8211; of the stock</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">value or None if can&#8217;t calculate value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="contents.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4b1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/api.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

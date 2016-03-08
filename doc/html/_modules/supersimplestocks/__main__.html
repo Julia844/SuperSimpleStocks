@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>supersimplestocks.__main__ &mdash; Python  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Python  documentation" href="../../contents.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for supersimplestocks.__main__</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># Super Simple Stocks</span>
+<span class="c1"># https://github.com/tgorka/SuperSimpleStocks</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2016 Tomasz Gorka &lt;http://tomasz.gorka.org.pl&gt;</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">optparse</span> <span class="kn">import</span> <span class="n">OptionParser</span>
+
+<span class="kn">import</span> <span class="nn">supersimplestocks</span>
+
+
+<div class="viewcode-block" id="check_argument"><a class="viewcode-back" href="../../main.html#supersimplestocks.__main__.check_argument">[docs]</a><span class="k">def</span> <span class="nf">check_argument</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">arguments_count</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span> <span class="n">api_fun</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Check argument for correct len, call API function, or throw an error.</span>
+
+<span class="sd">    :param parser: to throw an error</span>
+<span class="sd">    :param arguments_count: count to match</span>
+<span class="sd">    :param arguments: len to check and pass to api_fun</span>
+<span class="sd">    :param api_fun: function to call</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span> <span class="o">!=</span> <span class="n">arguments_count</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Incorrect number of arguments. &quot;</span>
+                     <span class="s2">&quot;For this action it should be </span><span class="si">%d</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="n">arguments_count</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">api_fun</span><span class="p">(</span><span class="o">*</span><span class="n">arguments</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../main.html#supersimplestocks.__main__.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    The main function. Parse the command line parameters,</span>
+<span class="sd">    call function from API.</span>
+
+<span class="sd">    :param argv: arguments from the command line</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">argv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">argv</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">(</span><span class="s2">&quot;usage: %prog [options] args. &quot;</span>
+                          <span class="s2">&quot;Call %prog --help to see the options.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;--action&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;trade&#39;</span><span class="p">,</span>
+            <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;Set action to do. Possible actions: trade(by default), &quot;</span>
+                   <span class="s2">&quot;load_dividends, load_dividend, price, pe, gbce.&quot;</span><span class="p">)</span>
+    <span class="n">options</span><span class="p">,</span> <span class="n">arguments</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+    <span class="n">undefined_action</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">arguments</span><span class="p">:</span> \
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Incorrect action for --action/-a parameter.&quot;</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+
+        <span class="s1">&#39;trade&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">check_argument</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span>
+                <span class="n">supersimplestocks</span><span class="o">.</span><span class="n">record_trade</span><span class="p">),</span>
+
+        <span class="s1">&#39;load_dividends&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">check_argument</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span>
+                <span class="n">supersimplestocks</span><span class="o">.</span><span class="n">load_dividend_data</span><span class="p">),</span>
+
+        <span class="s1">&#39;load_dividend&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">check_argument</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span>
+                <span class="n">supersimplestocks</span><span class="o">.</span><span class="n">record_dividend_data</span><span class="p">),</span>
+
+        <span class="s1">&#39;dividend&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">check_argument</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span>
+                <span class="n">supersimplestocks</span><span class="o">.</span><span class="n">dividend_yield</span><span class="p">),</span>
+
+        <span class="s1">&#39;price&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">check_argument</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span>
+                <span class="n">supersimplestocks</span><span class="o">.</span><span class="n">stock_price</span><span class="p">),</span>
+
+        <span class="s1">&#39;pe&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">check_argument</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span>
+                <span class="n">supersimplestocks</span><span class="o">.</span><span class="n">p_e_ratio</span><span class="p">),</span>
+
+        <span class="s1">&#39;gbce&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">check_argument</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span>
+                <span class="n">supersimplestocks</span><span class="o">.</span><span class="n">gbce</span><span class="p">),</span>
+
+    <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">action</span><span class="p">,</span> <span class="n">undefined_action</span><span class="p">)(</span><span class="n">arguments</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="mi">0</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../contents.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4b1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

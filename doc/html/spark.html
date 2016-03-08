@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>supersimplestocks.spark Package &mdash; Python  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Python  documentation" href="contents.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-supersimplestocks.spark">
+<span id="supersimplestocks-spark-package"></span><h1><a class="reference internal" href="#module-supersimplestocks.spark" title="supersimplestocks.spark"><code class="xref py py-mod docutils literal"><span class="pre">supersimplestocks.spark</span></code></a> Package<a class="headerlink" href="#module-supersimplestocks.spark" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="supersimplestocks.spark.Spark">
+<em class="property">class </em><code class="descclassname">supersimplestocks.spark.</code><code class="descname">Spark</code><a class="reference internal" href="_modules/supersimplestocks/spark.html#Spark"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.spark.Spark" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="supersimplestocks.spark.Spark.compatible_trades">
+<code class="descname">compatible_trades</code><span class="sig-paren">(</span><em>trade_offer</em>, <em>trades</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/spark.html#Spark.compatible_trades"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.spark.Spark.compatible_trades" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get compatible trades (according to price, oposite type,
+have open quantities.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>trade_offer</strong> &#8211; to get copmatible trades</li>
+<li><strong>trades</strong> &#8211; to filter</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of compatible trades</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="supersimplestocks.spark.Spark.gbce">
+<code class="descname">gbce</code><span class="sig-paren">(</span><em>begin_datetime</em>, <em>trades</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/spark.html#Spark.gbce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.spark.Spark.gbce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate GBCE based on the realized trades since the given time
+for all stocks.
+Algorithm: geometric mean of all stock prices: RootN(Sp1*Sp2*...SpN).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>begin_datetime</strong> &#8211; begin date since to analyze</li>
+<li><strong>trades</strong> &#8211; to analyze</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">calculated value</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="supersimplestocks.spark.Spark.last_dividend">
+<code class="descname">last_dividend</code><span class="sig-paren">(</span><em>symbol</em>, <em>dividents</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/spark.html#Spark.last_dividend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.spark.Spark.last_dividend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get last dividend from the list based on given symbol.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>symbol</strong> &#8211; symbol of stock</li>
+<li><strong>dividents</strong> &#8211; to analyze</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">last dividend from the list or throw a ValueError if not exists</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="supersimplestocks.spark.Spark.spark_context">
+<code class="descname">spark_context</code><a class="headerlink" href="#supersimplestocks.spark.Spark.spark_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get spark context if needed and initialize it on first run.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">spark context</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="supersimplestocks.spark.Spark.stock_price">
+<code class="descname">stock_price</code><span class="sig-paren">(</span><em>symbol</em>, <em>begin_datetime</em>, <em>trades</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/spark.html#Spark.stock_price"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.spark.Spark.stock_price" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get stock price based on the realized trades since the given time
+for given stock symbol.
+Algorithm: Sum(trade_price*trade_quantity) / Sum(trade_quantity).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>symbol</strong> &#8211; symbol of stock</li>
+<li><strong>begin_datetime</strong> &#8211; begin date since to analyze</li>
+<li><strong>trades</strong> &#8211; to analyze</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">calculated value</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.spark.map_stock_price">
+<code class="descclassname">supersimplestocks.spark.</code><code class="descname">map_stock_price</code><span class="sig-paren">(</span><em>trade</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/spark.html#map_stock_price"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.spark.map_stock_price" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spark Map function for calculating stock price.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>trade</strong> &#8211; for calculation</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">calculated value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.spark.postfix_gbce">
+<code class="descclassname">supersimplestocks.spark.</code><code class="descname">postfix_gbce</code><span class="sig-paren">(</span><em>count</em>, <em>p</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/spark.html#postfix_gbce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.spark.postfix_gbce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Postfix function to calculate results from Spark reduce function
+for calculating GBCE.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; to calculate</li>
+<li><strong>count</strong> &#8211; to calculate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">calculated value</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.spark.postfix_stock_price">
+<code class="descclassname">supersimplestocks.spark.</code><code class="descname">postfix_stock_price</code><span class="sig-paren">(</span><em>price</em>, <em>quantity</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/spark.html#postfix_stock_price"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.spark.postfix_stock_price" title="Permalink to this definition">¶</a></dt>
+<dd><p>Postfix function to calculate results from Spark reduce function
+for calculating stock price
+:param price: to calculate
+:param quantity: to calculate
+:return: calculated value</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="supersimplestocks.spark.reduce_stock_price">
+<code class="descclassname">supersimplestocks.spark.</code><code class="descname">reduce_stock_price</code><span class="sig-paren">(</span><em>price_quantity1</em>, <em>price_quantity2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/supersimplestocks/spark.html#reduce_stock_price"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#supersimplestocks.spark.reduce_stock_price" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spark Reduce function for calculating stock price.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>price_quantity1</strong> &#8211; first object to combine</li>
+<li><strong>price_quantity2</strong> &#8211; second object to combine</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">calculated value</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="contents.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/spark.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4b1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/spark.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
