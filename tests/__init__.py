@@ -107,4 +107,19 @@ trades = [
         ]
     }
 ]
-dividends = []
+
+dividends = [
+    {
+        'symbol': 'STS',
+        'type': 'Preferred',
+        'last': 10,
+        'fixed': 0.02,
+        'value': 100
+    }, {
+        'symbol': 'STS1',
+        'type': 'Common',
+        'last': 1,
+        'fixed': None,
+        'value': 10
+    }
+]
