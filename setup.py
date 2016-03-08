@@ -17,12 +17,13 @@ requires = [
     #'pyspark==1.6.0', # use PYTHONPATH pointing to this egg
     'py4j==0.9', # dependency of pyspark==1.6.0
     'celery==3.1.21',
+    'sphinx', # for generatng documentation
 
 ]
 
 test_requires = [ require for require in requires ]
 test_requires.extend([
-    #'sphinx', # for generatng documentation
+
 ])
 
 setup(name='supersimplestocks',

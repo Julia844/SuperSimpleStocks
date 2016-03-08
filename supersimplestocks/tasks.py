@@ -38,7 +38,8 @@ trandes_delta = datetime.timedelta(minutes=15)
 @celery_app.task
 def record_dividend_data(symbol, type, last, fixed, value):
     '''
-    Record new dividend
+    Record new dividend.
+
     :param symbol: of the stock
     :param type: Common, Preferred
     :param last: dividend value
@@ -61,6 +62,7 @@ def record_trade(symbol, type, quantity, price):
     Check the trades and try fo finalize the trade.
     If not possible to finalize for all quantities
     the rest will wait in the queue.
+
     :param symbol: of the stock
     :param type: SELL, BUY
     :param quantity: to trade
@@ -100,6 +102,7 @@ def record_trade(symbol, type, quantity, price):
 def stock_price(symbol):
     '''
     Calculate stock price for given stock based on trades from last 15 min.
+
     :param symbol: of the stock
     :return: value
     '''
@@ -112,6 +115,7 @@ def dividend_yield(symbol, price=None):
     '''
     Calculate dividend yield for given stock.
     The initial data about the dividends are static taken from csv file.
+
     :param symbol: of the stock
     :param price: OPTIONAL stock price for the dividend calculation.
             By default calculate stock price based on the task.
@@ -147,6 +151,7 @@ def gbce():
     '''
     Calculate the GBCE All Share Index using the geometric mean of prices
     for all stocks.
+
     :return: value
     '''
     now = datetime.datetime.now()

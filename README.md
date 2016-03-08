@@ -116,7 +116,7 @@ There is an API functions to use the library. The documentation can be
 generated from the comments using reStructuredText.
 
 ```
-
+python setup.py build_sphinx
 ```
 
 The simpe of API use:

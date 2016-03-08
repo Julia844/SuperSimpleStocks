@@ -15,6 +15,7 @@ import supersimplestocks
 def check_argument(parser, arguments_count, arguments, api_fun):
     '''
     Check argument for correct len, call API function, or throw an error.
+
     :param parser: to throw an error
     :param arguments_count: count to match
     :param arguments: len to check and pass to api_fun
@@ -32,6 +33,7 @@ def main(argv=None):
     '''
     The main function. Parse the command line parameters,
     call function from API.
+
     :param argv: arguments from the command line
     '''
     if argv is None:

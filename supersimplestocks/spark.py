@@ -11,7 +11,8 @@ from pyspark import SparkContext, SparkConf
 
 def map_stock_price(trade):
     '''
-    Spark Map function for calculating stock price
+    Spark Map function for calculating stock price.
+
     :param trade: for calculation
     :return: calculated value
     '''
@@ -21,7 +22,8 @@ def map_stock_price(trade):
 
 def reduce_stock_price(price_quantity1, price_quantity2):
     '''
-    Spark Reduce function for calculating stock price
+    Spark Reduce function for calculating stock price.
+
     :param price_quantity1: first object to combine
     :param price_quantity2: second object to combine
     :return: calculated value
@@ -44,7 +46,8 @@ def postfix_stock_price(price, quantity):
 def postfix_gbce(count, p):
     '''
     Postfix function to calculate results from Spark reduce function
-    for calculating GBCE
+    for calculating GBCE.
+
     :param p: to calculate
     :param count: to calculate
     :return: calculated value
@@ -59,7 +62,8 @@ class Spark():
     @property
     def spark_context(self):
         '''
-        Get spark context if needed and initialize it on first run
+        Get spark context if needed and initialize it on first run.
+
         :return: spark context
         '''
         if self.__spart_context is None:
@@ -73,6 +77,7 @@ class Spark():
         '''
         Get compatible trades (according to price, oposite type,
         have open quantities.
+
         :param trade_offer: to get copmatible trades
         :param trades: to filter
         :return: list of compatible trades
@@ -90,7 +95,8 @@ class Spark():
         '''
         Get stock price based on the realized trades since the given time
         for given stock symbol.
-        Algorithm: Sum(trade_price*trade_quantity) / Sum(trade_quantity)
+        Algorithm: Sum(trade_price*trade_quantity) / Sum(trade_quantity).
+
         :param symbol: symbol of stock
         :param begin_datetime: begin date since to analyze
         :param trades: to analyze
@@ -113,6 +119,7 @@ class Spark():
     def last_dividend(self, symbol, dividents):
         '''
         Get last dividend from the list based on given symbol.
+
         :param symbol: symbol of stock
         :param dividents: to analyze
         :return: last dividend from the list or throw a ValueError if not exists
@@ -127,7 +134,8 @@ class Spark():
         '''
         Calculate GBCE based on the realized trades since the given time
         for all stocks.
-        Algorithm: geometric mean of all stock prices: RootN(Sp1*Sp2*...SpN)
+        Algorithm: geometric mean of all stock prices: RootN(Sp1*Sp2*...SpN).
+
         :param begin_datetime: begin date since to analyze
         :param trades: to analyze
         :return: calculated value

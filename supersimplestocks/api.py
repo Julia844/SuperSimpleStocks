@@ -15,6 +15,7 @@ def load_dividend_data(csv_path):
     '''
     Load dividend data from csv file and registered each value
     to the celery task.
+
     :param csv_path: path to the file
     :raise ValueError: if value or last is < 0 from any row in csv file
     '''
@@ -27,6 +28,7 @@ def load_dividend_data(csv_path):
 def record_dividend_data(symbol, type, last, fixed, value):
     '''
     Record new dividend
+
     :param symbol: of the stock
     :param type: Common, Preferred
     :param last: dividend value
@@ -59,6 +61,7 @@ def record_trade(symbol, type, quantity, price):
     Check the trades and try fo finalize the trade.
     If not possible to finalize for all quantities
     the rest will wait in the queue.
+
     :param symbol: of the stock
     :param type: SELL, BUY
     :param quantity: to trade
@@ -79,6 +82,7 @@ def record_trade(symbol, type, quantity, price):
 def stock_price(symbol):
     '''
     Calculate stock price for given stock based on trades from last 15 min.
+
     :param symbol: of the stock
     :return: value or None if can't calculate value
     '''
@@ -89,6 +93,7 @@ def dividend_yield(symbol):
     '''
     Calculate dividend yield for given stock.
     The initial data about the dividends are static taken from csv file.
+
     :param symbol: of the stock
     :return: value or None if symbol not registered
             in last dividents.
@@ -100,6 +105,7 @@ def p_e_ratio(symbol):
     '''
     Calculate P/E Ratio for given stock.
     The initial data about the dividends are static taken from csv file.
+
     :param symbol: of the stock
     :return: value or None if can't calculate value
     '''
@@ -110,6 +116,7 @@ def gbce():
     '''
     Calculate the GBCE All Share Index using the geometric mean of prices
     for all stocks.
+
     :return: value or None if can't calculate value
     '''
     return tasks.gbce.delay().get(timeout=300)
