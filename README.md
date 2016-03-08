@@ -234,9 +234,7 @@ python setup.py test
 
 
 ## Release History
-+ 0.3.0 - better interface, testings, bugfixing
-+ 0.2.0 - code for the celery and spark
-+ 0.1.0 - initial revision.
++ 1.0.0 - initial final version of the application
 
 ## Author
 Tomasz Górka <http://tomasz.gorka.org.pl>
