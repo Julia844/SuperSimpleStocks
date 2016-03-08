@@ -119,6 +119,8 @@ generated from the comments using reStructuredText.
 python setup.py build_sphinx
 ```
 
+There is generated html version of the documentation in `doc/html` folder.
+
 The simpe of API use:
 
 ```
